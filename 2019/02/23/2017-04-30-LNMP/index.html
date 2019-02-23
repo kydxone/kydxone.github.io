@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="lnmp mysql php nginx centos,">
+
+
+
+
+
+  <link rel="alternate" href="https://notes.iissnan.com/atom.xml" title="kydxone" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="安装完成。版本显示如图所示。  本文介绍lnmp的所有配置安装工作。基本上从官网下载软件后自己编译的。 所有工作均基于vmware workstatiion pro 12。虚拟机配置是2核2G内存。我在虚拟机里安装了最新版ubuntu和centos7，感觉一点也不慢，看来虚拟机真是非常伟大的发明啊。虚拟机的安装等等，我就不讲了。下面讲从centos7开始讲。 Centos7具体的方法我是参考《">
+<meta name="keywords" content="lnmp mysql php nginx centos">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lnmp配置方法-centos7+mysql5.7+php7+nginx">
+<meta property="og:url" content="https://kydxone.github.io/2019/02/23/2017-04-30-LNMP/index.html">
+<meta property="og:site_name" content="kydxone">
+<meta property="og:description" content="安装完成。版本显示如图所示。  本文介绍lnmp的所有配置安装工作。基本上从官网下载软件后自己编译的。 所有工作均基于vmware workstatiion pro 12。虚拟机配置是2核2G内存。我在虚拟机里安装了最新版ubuntu和centos7，感觉一点也不慢，看来虚拟机真是非常伟大的发明啊。虚拟机的安装等等，我就不讲了。下面讲从centos7开始讲。 Centos7具体的方法我是参考《">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://wx1.sinaimg.cn/mw690/7c59f674gy1ff555koyq3j20qe0t7dj3.jpg">
+<meta property="og:image" content="http://linux.vbird.org/linux_basic/0157installcentos7/centos7_24.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/7c59f674gy1ff555lxogqj20qc0t5myu.jpg">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/7c59f674gy1ff555ms25lj20qc0t8adh.jpg">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/7c59f674gy1ff555lk8zoj20qe0t5jsq.jpg">
+<meta property="og:updated_time" content="2019-02-22T15:27:44.202Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="lnmp配置方法-centos7+mysql5.7+php7+nginx">
+<meta name="twitter:description" content="安装完成。版本显示如图所示。  本文介绍lnmp的所有配置安装工作。基本上从官网下载软件后自己编译的。 所有工作均基于vmware workstatiion pro 12。虚拟机配置是2核2G内存。我在虚拟机里安装了最新版ubuntu和centos7，感觉一点也不慢，看来虚拟机真是非常伟大的发明啊。虚拟机的安装等等，我就不讲了。下面讲从centos7开始讲。 Centos7具体的方法我是参考《">
+<meta name="twitter:image" content="http://wx1.sinaimg.cn/mw690/7c59f674gy1ff555koyq3j20qe0t7dj3.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://kydxone.github.io/2019/02/23/2017-04-30-LNMP/">
+
+
+
+
+
+  <title>lnmp配置方法-centos7+mysql5.7+php7+nginx | kydxone</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5906e6c13e58f03648a9851bc6bbf5a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">kydxone</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Code is poetry</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://kydxone.github.io/2019/02/23/2017-04-30-LNMP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Horstmann">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/car.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="kydxone">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">lnmp配置方法-centos7+mysql5.7+php7+nginx</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-23T15:26:47+08:00">
+                2019-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index">
+                    <span itemprop="name">PHP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/23/2017-04-30-LNMP/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/02/23/2017-04-30-LNMP/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://wx1.sinaimg.cn/mw690/7c59f674gy1ff555koyq3j20qe0t7dj3.jpg" alt="weibo"></p>
+<blockquote>
+<p>安装完成。版本显示如图所示。</p>
+</blockquote>
+<p>本文介绍lnmp的所有配置安装工作。基本上从官网下载软件后自己编译的。<br></p>
+<p>所有工作均基于vmware workstatiion pro 12。虚拟机配置是2核2G内存。我在虚拟机里安装了最新版ubuntu和centos7，感觉一点也不慢，看来虚拟机真是非常伟大的发明啊。虚拟机的安装等等，我就不讲了。下面讲从centos7开始讲。</p>
+<h3 id="Centos7"><a href="#Centos7" class="headerlink" title="Centos7"></a>Centos7</h3><p>具体的方法我是参考《鸟哥linux私房菜》，繁体版看起来相当头疼，台湾的计算机术语也和大陆的是不太一样的。不过还好有图，一切就非常顺利。<br></p>
+<p>贴上网址<a href="http://linux.vbird.org/linux_basic/0157installcentos7.php" target="_blank" rel="noopener">centos7安装</a><br></p>
+<p>这其中最累人的是分区。很详细，但也很累人。分区结果如下：<br></p>
+<p><img src="http://linux.vbird.org/linux_basic/0157installcentos7/centos7_24.jpg" alt="分区结果"></p>
+<p>几个注意事项：<br></p>
+<ol>
+<li>强制加入使用GPT分区表的安装参数。inst.gpt</li>
+<li>虚拟器容量大于40G</li>
+<li>网络设置为自动好了。按照鸟哥的设定方法不能用。</li>
+</ol>
+<h3 id="2-Nginx"><a href="#2-Nginx" class="headerlink" title="2.Nginx"></a>2.Nginx</h3><h5 id="2-1-nginx下载："><a href="#2-1-nginx下载：" class="headerlink" title="2.1 nginx下载："></a>2.1 nginx下载：</h5><p>直接从官网下载在目录下直接wget</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cd /usr/local/src</span><br><span class="line">[root@localhost src]# wget -c http://nginx.org/download/nginx-1.12.0.tar.gz</span><br></pre></td></tr></table></figure>
+<h5 id="2-2-在文件目录下解压"><a href="#2-2-在文件目录下解压" class="headerlink" title="2.2 在文件目录下解压"></a>2.2 在文件目录下解压</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf nginx-1.12.0.tar.gz</span><br></pre></td></tr></table></figure>
+<h5 id="2-3新建用户和组"><a href="#2-3新建用户和组" class="headerlink" title="2.3新建用户和组"></a>2.3新建用户和组</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@study src]# groupadd nginx</span><br><span class="line">[root@study src]# useradd -g nginx -M nginx</span><br><span class="line">[root@study src]# vi /etc/passwd</span><br></pre></td></tr></table></figure>
+<p>找到nginx那一行，后面由/bin/basn改为/sbin/nologin<br></p>
+<p>nginx:x1002:1003::/home/nginx:/sbin/nologin</p>
+<h5 id="2-4配置、编译和安装"><a href="#2-4配置、编译和安装" class="headerlink" title="2.4配置、编译和安装"></a>2.4配置、编译和安装</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cd /usr/local/src/nginx*</span><br><span class="line">[root@localhost nginx-1.12.0]# ./configure --prefix=/usr/local/nginx \</span><br><span class="line">--pid-path=/usr/local/nginx/run/nginx.pid \</span><br><span class="line">--with-http_ssl_module \</span><br><span class="line">--user=nginx \</span><br><span class="line"> --group=nginx \</span><br><span class="line">--with-pcre \</span><br><span class="line">--without-mail_pop3_module \</span><br><span class="line">--without-mail_imap_module \</span><br><span class="line">--without-mail_smtp_module</span><br></pre></td></tr></table></figure>
+<p>可能有些依赖要安装，其中有一个提示是缺少pcre库，谷歌一下解决。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install pcre-devel openssl openssl-devel</span><br></pre></td></tr></table></figure>
+<p>编译和安装<br></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost nginx-1.10.3]# make</span><br><span class="line">[root@localhost nginx-1.10.3]# make install</span><br></pre></td></tr></table></figure>
+<h5 id="2-5查看安装后的nginx版本"><a href="#2-5查看安装后的nginx版本" class="headerlink" title="2.5查看安装后的nginx版本"></a>2.5查看安装后的nginx版本</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost nginx-1.10.3]# /usr/local/nginx/sbin/nginx -v</span><br><span class="line">nginx version: nginx/1.10.3</span><br></pre></td></tr></table></figure>
+<h5 id="2-6修改默认端口"><a href="#2-6修改默认端口" class="headerlink" title="2.6修改默认端口"></a>2.6修改默认端口</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost nginx-1.10.3]# vi /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure>
+<p>找到 -</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">... ...</span><br><span class="line">    #gzip  on;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost;</span><br><span class="line"></span><br><span class="line">        #charset koi8-r;</span><br><span class="line">... ...</span><br></pre></td></tr></table></figure>
+<p>把上面的 <code>80</code> 修改为你想要的端口，如：<code>8080</code> 。</p>
+<p>修改配置后验证配置是否合法：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost nginx-1.10.3]# /usr/local/nginx/sbin/nginx -t</span><br></pre></td></tr></table></figure>
+<h5 id="2-7nginx停止、重启"><a href="#2-7nginx停止、重启" class="headerlink" title="2.7nginx停止、重启"></a>2.7nginx停止、重启</h5><p>启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx</span><br></pre></td></tr></table></figure>
+<p>停止</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Kill -9 nginx</span><br></pre></td></tr></table></figure>
+<p>重启</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/nginx/sbin/nginx -s reload</span><br></pre></td></tr></table></figure>
+<h5 id="2-8调试"><a href="#2-8调试" class="headerlink" title="2.8调试"></a>2.8调试</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Curl localhost</span><br></pre></td></tr></table></figure>
+<p><img src="http://wx4.sinaimg.cn/mw690/7c59f674gy1ff555lxogqj20qc0t5myu.jpg" alt="nginx"></p>
+<h2 id="3-PHP安装配置"><a href="#3-PHP安装配置" class="headerlink" title="3.PHP安装配置"></a>3.PHP安装配置</h2><h5 id="3-1-下载"><a href="#3-1-下载" class="headerlink" title="3.1 下载"></a>3.1 下载</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/src</span><br><span class="line">wget -c http://cn2.php.net/distributions/php7.1.4.tar.gz</span><br></pre></td></tr></table></figure>
+<p>解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf php-7*</span><br></pre></td></tr></table></figure>
+<h5 id="3-2安装依赖"><a href="#3-2安装依赖" class="headerlink" title="3.2安装依赖"></a>3.2安装依赖</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost php-7.1.4]# yum -y install libxml2 libxml2-devel openssl openssl-devel curl-devel libjpeg-devel libpng-devel freetype-devel libmcrypt-devel</span><br></pre></td></tr></table></figure>
+<p>编译时如果还有问题，执行以下依赖</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost php-7.1.4]# yum install -y wget gcc gcc-c++ autoconf libjpeg libjpeg-devel perl perl* perl-CPAN libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel openssl openssl-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers png jpeg autoconf gcc cmake make gcc-c++ gcc ladp ldap* ncurses ncurses-devel zlib zlib-devel zlib-static pcre pcre-devel pcre-static openssl openssl-devel perl libtoolt openldap-devel libxml2-devel ntpdate cmake gd* gd2 ImageMagick-devel jpeg jpeg* pcre-dev* fontconfig libpng libxml2 zip unzip gzip</span><br></pre></td></tr></table></figure>
+<h5 id="3-3编译、安装"><a href="#3-3编译、安装" class="headerlink" title="3.3编译、安装"></a>3.3编译、安装</h5><p>软件目录下编译 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/php7 \</span><br><span class="line">--with-config-file-path=/usr/local/php7/etc \</span><br><span class="line">--with-config-file-scan-dir=/usr/local/php7/etc/php.d \</span><br><span class="line">--with-mcrypt=/usr/include \</span><br><span class="line">--enable-mysqlnd \</span><br><span class="line">--with-mysqli \</span><br><span class="line">--with-pdo-mysql \</span><br><span class="line">--enable-fpm \</span><br><span class="line">--with-fpm-user=nginx \</span><br><span class="line">--with-fpm-group=nginx \</span><br><span class="line">--with-gd \</span><br><span class="line">--with-iconv \</span><br><span class="line">--with-zlib \</span><br><span class="line">--enable-xml \</span><br><span class="line">--enable-shmop \</span><br><span class="line">--enable-sysvsem \</span><br><span class="line">--enable-inline-optimization \</span><br><span class="line">--enable-mbregex \</span><br><span class="line">--enable-mbstring \</span><br><span class="line">--enable-ftp \</span><br><span class="line">--enable-gd-native-ttf \</span><br><span class="line">--with-openssl \</span><br><span class="line">--enable-pcntl \</span><br><span class="line">--enable-sockets \</span><br><span class="line">--with-xmlrpc \</span><br><span class="line">--enable-zip \</span><br><span class="line">--enable-soap \</span><br><span class="line">--without-pear \</span><br><span class="line">--with-gettext \</span><br><span class="line">--enable-session \</span><br><span class="line">--with-curl \</span><br><span class="line">--with-jpeg-dir \</span><br><span class="line">--with-freetype-dir \</span><br><span class="line">--enable-opcache</span><br></pre></td></tr></table></figure>
+<p>测试</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make test</span><br></pre></td></tr></table></figure>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make install</span><br></pre></td></tr></table></figure>
+<h5 id="3-4-修改配置"><a href="#3-4-修改配置" class="headerlink" title="3.4.修改配置"></a>3.4.修改配置</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/php7/bin/php -i | grep php.ini</span><br></pre></td></tr></table></figure>
+<p>复制PHP的配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/src/php-7.1.3/php.ini-production /usr/local/php7/etc/php.ini</span><br></pre></td></tr></table></figure>
+<h5 id="3-5-启用php-fpm服务"><a href="#3-5-启用php-fpm服务" class="headerlink" title="3.5.启用php-fpm服务"></a>3.5.启用php-fpm服务</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost local]# cd /usr/local/php7/etc</span><br><span class="line">[root@localhost etc]# cp php-fpm.conf.default php-fpm.conf</span><br><span class="line">[root@localhost etc]# cp php-fpm.d/www.conf.default php-fpm.d/www.conf</span><br></pre></td></tr></table></figure>
+<p>载入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost local]#  cd /usr/local/src/php-7.1.3/sapi/fpm/</span><br><span class="line">## 或直接使用可执行文件： /usr/local/php7/sbin/php-fpm</span><br><span class="line">[root@localhost local]# ls</span><br><span class="line">[root@localhost local]# cp init.d.php-fpm /etc/init.d/php-fpm</span><br><span class="line">[root@localhost local]# chmod +x /etc/init.d/php-fpm</span><br><span class="line">[root@localhost local]# chkconfig --add php-fpm</span><br><span class="line">[root@localhost local]# chkconfig php-fpm on</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service php-fpm start</span><br></pre></td></tr></table></figure>
+<h5 id="3-6-nginx与php7集成"><a href="#3-6-nginx与php7集成" class="headerlink" title="3.6.nginx与php7集成"></a>3.6.nginx与php7集成</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost local]# vi /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#location ~ \.php$ &#123;</span></span><br><span class="line"><span class="comment">#   root           html;</span></span><br><span class="line"><span class="comment">#  fastcgi_pass   127.0.0.1:9000;</span></span><br><span class="line"><span class="comment">#  fastcgi_index  index.php;</span></span><br><span class="line"><span class="comment">#  fastcgi_param  SCRIPT_FILENAME  /script$fastcgi_script_name;</span></span><br><span class="line"><span class="comment">#  include        fastcgi_params;</span></span><br><span class="line"><span class="comment">#&#125;</span></span><br></pre></td></tr></table></figure>
+<p>更改后</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php$ &#123;</span><br><span class="line">            root           html;</span><br><span class="line">            fastcgi_pass   <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">9000</span>;</span><br><span class="line">            fastcgi_index  index.php;</span><br><span class="line">            fastcgi_param  SCRIPT_FILENAME  /usr/local/nginx/html/$fastcgi_script_name;</span><br><span class="line">            <span class="keyword">include</span>        fastcgi_params;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -s reload</span><br></pre></td></tr></table></figure>
+<p>最后可在/usr/local/nginx/html写文件进行测试<br></p>
+<p>测试结果:<br></p>
+<p><img src="http://wx3.sinaimg.cn/mw690/7c59f674gy1ff555ms25lj20qc0t8adh.jpg" alt="testresult"></p>
+<h3 id="4MySQL5-7安装配置"><a href="#4MySQL5-7安装配置" class="headerlink" title="4MySQL5.7安装配置"></a>4MySQL5.7安装配置</h3><p>Mysql 直接采用yum进行安装了。<a href="http://dev.mysql.com/doc/refman/5.7/en/source-installation.html" target="_blank" rel="noopener">源码安装链接</a></p>
+<p>原来的mysql检测</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list installed | grep mysql</span><br></pre></td></tr></table></figure>
+<p>删除原机mysql</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y remove mysql-libs.x86_64</span><br></pre></td></tr></table></figure>
+<p>下载或者wget放到src目录，配置yum源</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install wget</span><br><span class="line">yum localinstall 安装包文件名</span><br></pre></td></tr></table></figure>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install mysql-community-server</span><br></pre></td></tr></table></figure>
+<p>登陆</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure>
+<p>连接测试:<br></p>
+<p><img src="http://wx3.sinaimg.cn/mw690/7c59f674gy1ff555lk8zoj20qe0t5jsq.jpg" alt="mysqlphp7"></p>
+<p>参考文章<br></p>
+<p><a href="http://www.yiibai.com/nginx/lnmp.html" target="_blank" rel="noopener">Nginx+PHP7+MySQL5.7（LNMP）环境配置</a><br></p>
+<p><a href="http://linux.vbird.org/linux_basic/0157installcentos7.php" target="_blank" rel="noopener">第三章、安装CentOS7.x</a><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赠人玫瑰,手有余香</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Horstmann 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Horstmann 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/lnmp-mysql-php-nginx-centos/" rel="tag"># lnmp mysql php nginx centos</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/23/2017-05-16-mike-sheet/" rel="next" title="在线表单">
+                <i class="fa fa-chevron-left"></i> 在线表单
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/23/2017-04-18-change-duoshuo-to-disqus/" rel="prev" title="今天把评论系统改成disqus了">
+                今天把评论系统改成disqus了 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/car.jpg" alt="Horstmann">
+            
+              <p class="site-author-name" itemprop="name">Horstmann</p>
+              <p class="site-description motion-element" itemprop="description">乱写一通,一塌糊涂</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="https://notes.iissnan.com/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/kydxone" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:wangjianjun202@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://weibo.com/juncommonsense" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Weibo</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/kydxone skype" target="_blank" title="Zhihu">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Zhihu</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://kydxone.github.io/" title="KK的博客" target="_blank">KK的博客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Centos7"><span class="nav-number">1.</span> <span class="nav-text">Centos7</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Nginx"><span class="nav-number">2.</span> <span class="nav-text">2.Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-nginx下载："><span class="nav-number">2.0.1.</span> <span class="nav-text">2.1 nginx下载：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-在文件目录下解压"><span class="nav-number">2.0.2.</span> <span class="nav-text">2.2 在文件目录下解压</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3新建用户和组"><span class="nav-number">2.0.3.</span> <span class="nav-text">2.3新建用户和组</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4配置、编译和安装"><span class="nav-number">2.0.4.</span> <span class="nav-text">2.4配置、编译和安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5查看安装后的nginx版本"><span class="nav-number">2.0.5.</span> <span class="nav-text">2.5查看安装后的nginx版本</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-6修改默认端口"><span class="nav-number">2.0.6.</span> <span class="nav-text">2.6修改默认端口</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-7nginx停止、重启"><span class="nav-number">2.0.7.</span> <span class="nav-text">2.7nginx停止、重启</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-8调试"><span class="nav-number">2.0.8.</span> <span class="nav-text">2.8调试</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#3-PHP安装配置"><span class="nav-number"></span> <span class="nav-text">3.PHP安装配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-下载"><span class="nav-number">0.0.1.</span> <span class="nav-text">3.1 下载</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2安装依赖"><span class="nav-number">0.0.2.</span> <span class="nav-text">3.2安装依赖</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3编译、安装"><span class="nav-number">0.0.3.</span> <span class="nav-text">3.3编译、安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-4-修改配置"><span class="nav-number">0.0.4.</span> <span class="nav-text">3.4.修改配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-5-启用php-fpm服务"><span class="nav-number">0.0.5.</span> <span class="nav-text">3.5.启用php-fpm服务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-6-nginx与php7集成"><span class="nav-number">0.0.6.</span> <span class="nav-text">3.6.nginx与php7集成</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4MySQL5-7安装配置"><span class="nav-number">1.</span> <span class="nav-text">4MySQL5.7安装配置</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Horstmann</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://kydxone.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://kydxone.github.io/2019/02/23/2017-04-30-LNMP/';
+          this.page.identifier = '2019/02/23/2017-04-30-LNMP/';
+          this.page.title = 'lnmp配置方法-centos7+mysql5.7+php7+nginx';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://kydxone.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
